@@ -63,14 +63,14 @@ const Header = () => {
 
           <a
             className="hidden rounded-md bg-gray-100 px-5 py-2.5 text-sm font-medium text-black-600 transition hover:text-grey-600/75 sm:block"
-            href="#"
+            href="/files"
           >
             Login
           </a>
         
           <a
             className="block rounded-md bg-primary px-5 py-2.5 text-sm font-medium text-white transition hover:bg-blue-700"
-            href="#"
+            href="/files"
           >
             Get Started
           </a>
