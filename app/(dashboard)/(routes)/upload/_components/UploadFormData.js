@@ -1,14 +1,24 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import AlertMessage from "./AlertMessage";
 import FilePreview from "./FilePreview"
 import ProgressBarr from './ProgressBarr'
 import SendAlert from './SendAlert'
+import OverlayAlert from './OverlayAlert'
 
 
 const UploadFormData = ({uploadButtonClick, progress}) => {
     const [file, setFile] = React.useState(null);
 
     const [erroMessage, setErrorMessage] = React.useState(null);
+    const [showAlert, setShowAlert] = React.useState(false);
+    useEffect(() => {
+        if (progress === 100) {
+            setShowAlert(true);
+            // Optionally, auto-hide the alert after a certain time
+            const timer = setTimeout(() => setShowAlert(false), 5000);
+            return () => clearTimeout(timer);
+        }
+    }, [progress]);
 
     const onFileSelect=(file)=>{
         console.log(file)
@@ -19,6 +29,10 @@ const UploadFormData = ({uploadButtonClick, progress}) => {
         }
         setErrorMessage(null);
         setFile(file);
+    }
+
+    const handleDismissAlert = () => {
+        setShowAlert(false);
     }
 
   return (
@@ -62,8 +76,8 @@ const UploadFormData = ({uploadButtonClick, progress}) => {
       {progress>0 ? <ProgressBarr progress={progress}/> : <button disabled={!file} className="p-2 bg-primary text-white w-[30%] rounded-full mt-5 disabled:bg-gray-400" onClick={()=>uploadButtonClick(file)}>
         Upload
       </button>}
-      {progress==100 ? <SendAlert/>:null}
-    </div>
+      {showAlert && <OverlayAlert onDismiss={handleDismissAlert} />}
+      </div>
   );
 };
 
