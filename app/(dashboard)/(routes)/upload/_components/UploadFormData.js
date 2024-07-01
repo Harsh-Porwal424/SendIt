@@ -1,8 +1,11 @@
 import React from "react";
 import AlertMessage from "./AlertMessage";
 import FilePreview from "./FilePreview"
+import ProgressBarr from './ProgressBarr'
+import SendAlert from './SendAlert'
 
-const UploadFormData = ({uploadButtonClick}) => {
+
+const UploadFormData = ({uploadButtonClick, progress}) => {
     const [file, setFile] = React.useState(null);
 
     const [erroMessage, setErrorMessage] = React.useState(null);
@@ -55,9 +58,11 @@ const UploadFormData = ({uploadButtonClick}) => {
       </div>
       {erroMessage?<AlertMessage msg={erroMessage}/>:null}
       {file ? <FilePreview file={file} removeFile={()=>setFile(null)}/>: null}
-      <button disabled={!file} className="p-2 bg-primary text-white w-[30%] rounded-full mt-5 disabled:bg-gray-400" onClick={()=>uploadButtonClick(file)}>
+      
+      {progress>0 ? <ProgressBarr progress={progress}/> : <button disabled={!file} className="p-2 bg-primary text-white w-[30%] rounded-full mt-5 disabled:bg-gray-400" onClick={()=>uploadButtonClick(file)}>
         Upload
-      </button>
+      </button>}
+      {progress==100 ? <SendAlert/>:null}
     </div>
   );
 };
