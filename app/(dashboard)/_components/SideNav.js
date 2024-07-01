@@ -1,5 +1,5 @@
 "use client"
-import { Files, Shield, Upload } from "lucide-react";
+import { Files, Mail, Newspaper, Shield, Upload } from "lucide-react";
 import Image from "next/image";
 import React, { useState } from "react";
 
@@ -22,6 +22,12 @@ const SideNav = () => {
             name: "Upgrade",
             icon: Shield,
             path: "/upgrade"
+        },
+        {
+            id: 4,
+            name: "Newsletter",
+            icon: Mail,
+            path: "/newsletter"
         },
     ]
 
