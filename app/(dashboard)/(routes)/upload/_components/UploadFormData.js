@@ -1,7 +1,23 @@
 import React from "react";
+import AlertMessage from "./AlertMessage";
+import FilePreview from "./FilePreview"
 
 const UploadFormData = () => {
     const [file, setFile] = React.useState(null);
+
+    const [erroMessage, setErrorMessage] = React.useState(null);
+
+    const onFileSelect=(file)=>{
+        console.log(file)
+        if(file && file.size > 2000000){
+            console.log("File is too large");
+            setErrorMessage("File is too large, Maximum File Upload Size is 2MB");
+            return;
+        }
+        setErrorMessage(null);
+        setFile(file);
+    }
+
   return (
     <div className=" text-center">
       <div class="flex items-center justify-center w-full">
@@ -31,12 +47,14 @@ const UploadFormData = () => {
               <strong className="text-primary">drop</strong>
             </p>
             <p class="text-xs text-gray-500 dark:text-gray-400">
-              SVG, PNG, JPG or GIF (MAX. 800x400px)
+              SVG, PNG, JPG or GIF (MAX Size 2MB)
             </p>
           </div>
-          <input id="dropzone-file" type="file" className="hidden" onChange={(event)=>setFile(event.target.files[0])} />
+          <input id="dropzone-file" type="file" className="hidden" onChange={(event)=>onFileSelect(event.target.files[0])} />
         </label>
       </div>
+      {erroMessage?<AlertMessage msg={erroMessage}/>:null}
+      {file ? <FilePreview file={file} removeFile={()=>setFile(null)}/>: null}
       <button disabled={!file} className="p-2 bg-primary text-white w-[30%] rounded-full mt-5 disabled:bg-gray-400">
         Upload
       </button>
