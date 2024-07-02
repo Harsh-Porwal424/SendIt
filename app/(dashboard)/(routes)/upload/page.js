@@ -1,5 +1,5 @@
 "use client"
-import React from "react";
+import React, { useEffect } from "react";
 import UploadFormData from "./_components/UploadFormData";
 import { app } from "../../../../firebaseConfig";
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
@@ -7,10 +7,14 @@ import { doc, getFirestore, setDoc } from "firebase/firestore";
 import ProgressBarr from './_components/ProgressBarr'
 import { useUser } from "@clerk/nextjs";
 import { GenerateRandomString } from '../../../_utils/GenerateRandomString'
+import { useRouter } from "next/navigation";
 
 const Upload = () => {
   const {user} = useUser();
   const [progress, setProgress] = React.useState(0);
+  const router = useRouter();
+  const [fileDocId, setFileDocId] = React.useState(null);
+  const [uploadCompleted, setUploadCompleted]=React.useState(false);
   const db = getFirestore(app);
   const storage = getStorage(app);
   const uploadFile = (file) => {
@@ -46,7 +50,24 @@ const Upload = () => {
       id: docID,
       shortUrl:process.env.NEXT_PUBLIC_BASE_URL + docID,
     });
+    setFileDocId(docID);
   }
+
+  useEffect(() => {
+    console.log("Trigger")
+    progress==100 && setTimeout(() => {
+      setUploadCompleted(true);
+    }, 2000)
+  }, [progress==100])
+
+  useEffect(() => {
+   uploadCompleted&&
+   setTimeout(()=>{
+    setUploadCompleted(false);
+    //window.location.reload();
+    router.push('file-preview/'+fileDocId);
+   },2000)
+  }, [uploadCompleted==true])
 
   return (
     <div className="p-5 px-8 md:px-28">
@@ -54,7 +75,7 @@ const Upload = () => {
         Start <strong className="text-primary">Uploading</strong> Files &{" "}
         <strong className="text-primary">share </strong>it
       </h2>
-      <UploadFormData uploadButtonClick={(file) => uploadFile(file)} progress={progress} />
+      <UploadFormData uploadButtonClick={(file) => uploadFile(file)} progress={progress} fileDocId={fileDocId} />
     </div>
   );
 };

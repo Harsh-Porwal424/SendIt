@@ -6,7 +6,9 @@ import SendAlert from './SendAlert'
 import OverlayAlert from './OverlayAlert'
 
 
+
 const UploadFormData = ({uploadButtonClick, progress}) => {
+
     const [file, setFile] = React.useState(null);
 
     const [erroMessage, setErrorMessage] = React.useState(null);
