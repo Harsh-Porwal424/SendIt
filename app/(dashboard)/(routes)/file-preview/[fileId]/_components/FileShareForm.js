@@ -1,10 +1,27 @@
 import React, { useState } from 'react';
 import { Copy } from 'lucide-react';
+import GlobalApi from '../../../../../_utils/GlobalApi';
 
 function FileShareForm({ file, onPasswordSave }) {
     const [isPasswordEnabled, setIsPasswordEnabled] = useState(false);
     const [password, setPassword] = useState('');
     const [email, setEmail] = useState('');
+
+    const sendEmail = () => {
+        const data = {
+            emailToSend: email,
+            // userName:user?.fullName,
+            fileName:file?.fileName,
+            fileSize: file?.fileSize,
+            fileType:file?.fileType,
+            shortUrl:file?.shortUrl,
+        };
+        GlobalApi.sendEmail(data).then(res => {
+            console.log(res);
+        }).catch(err => {
+            console.error(err);
+        });
+    };
 
     const handleCopy = () => {
         navigator.clipboard.writeText(file.shortUrl);
@@ -70,7 +87,7 @@ function FileShareForm({ file, onPasswordSave }) {
                 <button 
                     className='w-full p-2 bg-blue-500 text-white rounded-md disabled:bg-gray-300 hover:bg-blue-600 transition-colors'
                     disabled={!email.includes('@')}
-                    onClick={() => {/* Implement email sending logic */}}
+                    onClick={sendEmail}
                 >
                     Send Email
                 </button>
