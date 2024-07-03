@@ -5,7 +5,7 @@ import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 
 
-const SideNav = () => {
+const SideNav = ({closeSideBar}) => {
     const router = useRouter();
     const menuList = [
         {
@@ -52,7 +52,7 @@ const SideNav = () => {
                     <button
                         key={item.id}
                         className={`flex items-center gap-2 p-4 px-6 w-full text-gray-700 hover:bg-gray-100 transition-colors ${activeIndex === index ? 'bg-blue-100 text-blue-700 font-semibold' : null}`}
-                        onClick={() => handleNavigation(index, item.path)}
+                        onClick={() => {handleNavigation(index, item.path); closeSideBar()}}
                     >
                         <item.icon className="w-5 h-5" />
                         <h2>{item.name}</h2>

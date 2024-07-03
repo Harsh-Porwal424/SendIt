@@ -13,46 +13,52 @@ import {
 
 export const EmailTemplate = ({
     response,
-}) => (
-  <Html>
-    <Head />
-    <Preview>{response?.emailToSend?.split("@")[0]} shared a file with you</Preview>
-    <Body style={main}>
-      <Container style={container}>
-        <Section style={content}>
-          <Heading style={header}>Hi {response?.emailToSend?.split("@")[0]},</Heading>
-          <Heading as="h2" style={subHeader}>
-            Someone shared a file with you
-          </Heading>
-          <Section style={fileInfo}>
-            <Text style={label}>File Name:</Text>
-            <Text style={value}>{response.fileName}</Text>
-            <Text style={label}>File Size:</Text>
-            <Text style={value}>{response.fileSize}</Text>
-            <Text style={label}>File Type:</Text>
-            <Text style={value}>{response.fileType}</Text>
-          </Section>
-          <Text style={disclaimer}>
-            *Access and Download file on your own risk
-          </Text>
-          <Text style={paragraph}>
-            Now You can also share file with SendIt FileSharo App
-          </Text>
-          <Text style={paragraph}>
-            Click Below Button to Access your file
-          </Text>
-          <Section style={buttonContainer}>
-            <Button style={button}>Click here to Download</Button>
-          </Section>
-        </Section>
-        <Text style={footer}>
-          © 2024 | SendIt FileSharo App. All rights reserved.
-        </Text>
-      </Container>
-    </Body>
-  </Html>
-);
+}) => {
+  // Construct the full URL with '/f' added correctly
+  const fullUrl = response?.shortUrl 
+    ? `${response.shortUrl.replace(/(http:\/\/[^\/]+\/)/, '$1f/')}` 
+    : '';
 
+  return (
+    <Html>
+      <Head />
+      <Preview>{response?.emailToSend?.split("@")[0]} shared a file with you</Preview>
+      <Body style={main}>
+        <Container style={container}>
+          <Section style={content}>
+            <Heading style={header}>Hi {response?.emailToSend?.split("@")[0]},</Heading>
+            <Heading as="h2" style={subHeader}>
+              Someone shared a file with you
+            </Heading>
+            <Section style={fileInfo}>
+              <Text style={label}>File Name:</Text>
+              <Text style={value}>{response?.fileName}</Text>
+              <Text style={label}>File Size:</Text>
+              <Text style={value}>{response?.fileSize}</Text>
+              <Text style={label}>File Type:</Text>
+              <Text style={value}>{response?.fileType}</Text>
+            </Section>
+            <Text style={disclaimer}>
+              *Access and Download file at your own risk
+            </Text>
+            <Text style={paragraph}>
+              Now You can also share files with SendIt FileSharo App
+            </Text>
+            <Text style={paragraph}>
+              Click the Button Below to Access your file
+            </Text>
+            <Section style={buttonContainer}>
+              <Button style={button} href={fullUrl}>Click here to Download</Button>
+            </Section>
+          </Section>
+          <Text style={footer}>
+            © 2024 | SendIt FileSharo App. All rights reserved.
+          </Text>
+        </Container>
+      </Body>
+    </Html>
+  );
+};
 const main = {
   backgroundColor: "#f4f4f4",
   fontFamily: "'Arial', sans-serif",

@@ -6,11 +6,12 @@ function FileShareForm({ file, onPasswordSave }) {
     const [isPasswordEnabled, setIsPasswordEnabled] = useState(false);
     const [password, setPassword] = useState('');
     const [email, setEmail] = useState('');
+    
 
     const sendEmail = () => {
         const data = {
             emailToSend: email,
-            userName:user?.fullName,
+            // userName:user?.fullName,
             fileName:file?.fileName,
             fileSize: file?.fileSize,
             fileType:file?.fileType,
@@ -24,9 +25,13 @@ function FileShareForm({ file, onPasswordSave }) {
     };
 
     const handleCopy = () => {
-        navigator.clipboard.writeText(file.shortUrl);
+        navigator.clipboard.writeText(fullUrl);
         // You might want to add a toast notification here
     };
+
+    const fullUrl = file?.shortUrl 
+    ? `${file.shortUrl.replace(/(http:\/\/[^\/]+\/)/, '$1f/')}` 
+    : '';
 
     return file && (
         <div className='flex flex-col gap-4 p-6 bg-white rounded-lg shadow-sm'>
@@ -35,7 +40,7 @@ function FileShareForm({ file, onPasswordSave }) {
                 <div className='flex gap-2 p-2 border rounded-md justify-between items-center bg-gray-50'>
                     <input 
                         type='text' 
-                        value={file.shortUrl} 
+                        value={fullUrl} 
                         readOnly 
                         className='text-gray-700 bg-transparent outline-none w-full'
                     />
