@@ -10,7 +10,7 @@ function FileShareForm({ file, onPasswordSave }) {
     const sendEmail = () => {
         const data = {
             emailToSend: email,
-            // userName:user?.fullName,
+            userName:user?.fullName,
             fileName:file?.fileName,
             fileSize: file?.fileSize,
             fileType:file?.fileType,
