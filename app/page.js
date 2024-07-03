@@ -7,7 +7,6 @@ export default function Home() {
     <div>
       <Header />
       <Hero/>
-      Hello World
     </div>
   );
 }
