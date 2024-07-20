@@ -30,7 +30,7 @@ function FileShareForm({ file, onPasswordSave }) {
     };
 
     const fullUrl = file?.shortUrl 
-    ? `${file.shortUrl.replace(/(http:\/\/[^\/]+\/)/, '$1f/')}` 
+    ? `${file.shortUrl.replace(/(https:\/\/[^\/]+\/)/, '$1f/')}` 
     : '';
 
     return file && (
