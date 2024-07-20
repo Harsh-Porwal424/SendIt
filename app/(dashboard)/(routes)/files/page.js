@@ -48,7 +48,7 @@ const Page = () => {
                     <tbody>
                         {files.map((file, index) => {
                             const fullUrl = file?.shortUrl 
-                                ? `${file.shortUrl.replace(/(http:\/\/[^\/]+\/)/, '$1file-preview/')}` 
+                                ? `${file.shortUrl.replace(/(https:\/\/[^\/]+\/)/, '$1file-preview/')}` 
                                 : '';
 
                             return (
